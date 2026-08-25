@@ -2,104 +2,259 @@
 <html lang="vi">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<title>Key Server Admin</title>
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>api-key-manager — Key Server</title>
 <style>
-:root{--pink:#ec4899;--pink2:#fce7f3;--rose:#f43f5e;--green:#10b981;--amber:#f59e0b;--text:#1f2937;--muted:#6b7280;--line:#f3d4e4;--bg:#fff7fb}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;background:var(--bg);color:var(--text)}
-button,input,select,textarea{font:inherit}button{cursor:pointer}.app{display:flex;min-height:100vh}.side{width:245px;background:#fff;border-right:1px solid var(--line);padding:18px 12px;position:sticky;top:0;height:100vh}.brand{display:flex;gap:10px;align-items:center;padding:8px 10px 18px;border-bottom:1px solid var(--line);margin-bottom:12px}.logo{width:36px;height:36px;border-radius:10px;background:var(--pink);color:#fff;display:grid;place-items:center;font-weight:800}.brand b{font-size:15px}.brand small{display:block;color:#9ca3af;margin-top:2px}.nav{display:grid;gap:5px}.nav button{border:0;background:transparent;text-align:left;padding:11px 12px;border-radius:11px;color:#6b7280}.nav button:hover{background:#fff0f7;color:#db2777}.nav button.active{background:var(--pink);color:#fff;box-shadow:0 7px 18px #f9a8d4}.content{flex:1;padding:25px;min-width:0}.top{display:flex;align-items:center;justify-content:space-between;gap:15px;margin-bottom:22px}.top h1{margin:0;font-size:26px}.top p{margin:5px 0 0;color:#9ca3af;font-size:13px}.actions{display:flex;gap:8px;flex-wrap:wrap}.btn{border:1px solid var(--line);background:#fff;padding:9px 12px;border-radius:10px;color:#db2777;font-weight:600;font-size:13px}.btn.primary{background:var(--pink);border-color:var(--pink);color:#fff}.btn.danger{color:var(--rose);border-color:#fecdd3}.btn.dark{background:#111827;color:#fff;border-color:#111827}.btn:disabled{opacity:.5;cursor:not-allowed}.grid{display:grid;gap:16px}.stats{grid-template-columns:repeat(5,minmax(0,1fr))}.card{background:#fff;border:1px solid var(--line);border-radius:16px;padding:17px;box-shadow:0 4px 16px rgba(236,72,153,.04)}.stat .num{font-size:27px;font-weight:800}.stat .label{color:#9ca3af;font-size:12px;margin-top:4px}.stat .ico{width:36px;height:36px;border-radius:10px;background:#fff0f7;color:var(--pink);display:grid;place-items:center;margin-bottom:10px}.layout2{grid-template-columns:1fr 1fr}.layout3{grid-template-columns:repeat(3,1fr)}.section-title{font-weight:800;font-size:14px;margin:0 0 13px}.table-wrap{overflow:auto}.table{width:100%;border-collapse:collapse;font-size:13px}.table th{text-align:left;color:#9ca3af;font-size:11px;font-weight:700;border-bottom:1px solid var(--line);padding:9px 8px;white-space:nowrap}.table td{border-bottom:1px solid #fff0f7;padding:10px 8px;vertical-align:middle}.table tr:last-child td{border-bottom:0}.badge{display:inline-flex;border:1px solid #e5e7eb;border-radius:999px;padding:3px 8px;font-size:11px;font-weight:700;white-space:nowrap}.green{background:#ecfdf5;color:#047857;border-color:#a7f3d0}.red{background:#fff1f2;color:#be123c;border-color:#fecdd3}.amber{background:#fffbeb;color:#b45309;border-color:#fde68a}.pink{background:#fdf2f8;color:#be185d;border-color:#fbcfe8}.gray{background:#f9fafb;color:#6b7280}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.copy{border:1px solid #fbcfe8;background:#fdf2f8;color:#be185d;border-radius:7px;padding:4px 7px;font-size:11px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.search{position:relative}.search input{padding-left:34px}.search span{position:absolute;left:11px;top:10px;color:#9ca3af}.input{width:100%;padding:9px 11px;border:1px solid var(--line);border-radius:9px;outline:none;background:#fff}.input:focus{border-color:#f472b6;box-shadow:0 0 0 3px #fce7f3}.field{margin-bottom:12px}.field label{display:block;font-size:11px;font-weight:700;color:#6b7280;margin-bottom:5px}.formgrid{display:grid;grid-template-columns:1fr 1fr;gap:0 14px}.toggle{display:flex;justify-content:space-between;align-items:center;padding:9px 0;font-size:13px}.switch{width:42px;height:23px;border-radius:99px;background:#e5e7eb;padding:2px;border:0}.switch i{display:block;width:19px;height:19px;background:#fff;border-radius:50%;transition:.15s;box-shadow:0 1px 3px #aaa}.switch.on{background:var(--pink)}.switch.on i{transform:translateX(19px)}.toolbar{display:flex;gap:9px;align-items:center;justify-content:space-between;margin-bottom:14px;flex-wrap:wrap}.empty{padding:42px;text-align:center;color:#9ca3af;border:2px dashed var(--line);border-radius:14px}.modal{position:fixed;inset:0;background:rgba(17,24,39,.35);display:grid;place-items:center;padding:18px;z-index:20}.modalbox{background:#fff;border-radius:17px;width:min(720px,100%);max-height:92vh;overflow:auto;box-shadow:0 25px 80px rgba(0,0,0,.18)}.modalhead{padding:16px 18px;border-bottom:1px solid var(--line);display:flex;justify-content:space-between;align-items:center}.modalbody{padding:18px}.close{border:0;background:transparent;color:#9ca3af;font-size:22px}.toast{position:fixed;right:20px;bottom:20px;background:#111827;color:#fff;padding:11px 15px;border-radius:10px;z-index:50;font-size:13px}.notice{padding:12px 14px;border-radius:10px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;font-size:13px}.ok{padding:12px 14px;border-radius:10px;background:#ecfdf5;border:1px solid #a7f3d0;color:#047857;font-size:13px}.pre{background:#111827;color:#fce7f3;border-radius:11px;padding:14px;overflow:auto;font-size:12px;line-height:1.55}.json{white-space:pre-wrap;word-break:break-word}.mobile{display:none}
-@media(max-width:1000px){.stats.four{grid-template-columns:repeat(2,1fr)}.layout2,.layout3{grid-template-columns:1fr}.side{width:205px}}
-@media(max-width:700px){.stats.four{grid-template-columns:1fr 1fr}.app{display:block}.side{position:static;width:100%;height:auto}.nav{grid-template-columns:repeat(2,1fr)}.content{padding:15px}.stats{grid-template-columns:1fr 1fr}.formgrid{grid-template-columns:1fr}.top{align-items:flex-start}.mobile{display:block}}
-.nav button{display:flex;align-items:center;gap:14px;font-size:15px;font-weight:600;padding:13px 15px}.navico{width:22px;text-align:center;font-size:20px;line-height:1}.nav button.active{font-weight:700}.stats.four{grid-template-columns:repeat(2,minmax(0,1fr))}.home-card{min-height:220px}.card-head{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:12px}.muted{margin:0;color:#a1a1aa;font-size:12px}.mini-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}.mini-grid>div{background:#fff7fb;border:1px solid #fce7f3;border-radius:12px;padding:14px}.mini-grid b{display:block;font-size:24px}.mini-grid span{font-size:11px;color:#9ca3af}.db-box{display:grid;gap:10px}.db-box>div{display:flex;flex-direction:column;gap:3px;background:#fff7fb;border:1px solid #fce7f3;border-radius:10px;padding:10px}.db-box span{font-size:10px;color:#9ca3af}.db-box b{font-size:11px;word-break:break-all}.side{box-shadow:4px 0 18px rgba(236,72,153,.03)}.brand{padding:8px 10px 22px}.logo{border-radius:12px}.top h1{font-size:34px;letter-spacing:-.5px}.top p{font-size:16px}.stat{min-height:155px;padding:22px}.stat .num{font-size:38px}.stat .label{font-size:15px}.stat .ico{width:48px;height:48px;font-size:20px}.card{box-shadow:0 5px 20px rgba(236,72,153,.055)}</style>
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;color:#273244;background:#fff7fb}
+button,input,select,textarea{font:inherit}button{cursor:pointer}
+.app{min-height:100vh;display:flex}.sidebar{width:270px;flex:0 0 270px;background:#fff;border-right:1px solid #f7dce9;display:flex;flex-direction:column;min-height:100vh}
+.brand{height:112px;display:flex;align-items:center;gap:14px;padding:24px;border-bottom:1px solid #f7dce9}.logo{width:54px;height:54px;border-radius:15px;background:#f72591;color:#fff;display:grid;place-items:center;box-shadow:0 7px 18px #fbcfe8}.brand b{font-size:22px}.brand small{display:block;color:#9ca3af;font-size:11px;margin-top:3px}
+.nav{padding:25px 18px;display:grid;gap:7px}.nav button{border:0;background:transparent;text-align:left;color:#6b7280;padding:15px 16px;border-radius:16px;font-weight:600;font-size:16px;display:flex;align-items:center;gap:14px}.nav button:hover{background:#fff0f7;color:#e91e82}.nav button.active{background:#f72591;color:white;box-shadow:0 8px 20px #fbcfe8}.ico{width:22px;text-align:center;font-size:20px}
+.main{flex:1;min-width:0;padding:42px 54px}.head{margin-bottom:28px}.head h1{font-size:34px;margin:0 0 7px}.head p{font-size:17px;color:#9ca3af;margin:0}.cards{display:grid;grid-template-columns:repeat(4,1fr);gap:24px;margin-bottom:24px}.stat{background:#fff;border:1px solid #f5d6e5;border-radius:22px;padding:25px;box-shadow:0 4px 14px rgba(236,72,153,.05)}.stat .si{width:54px;height:54px;background:#fff1f7;color:#f72591;border-radius:14px;display:grid;place-items:center;font-size:25px;margin-bottom:23px}.stat .n{font-size:34px;font-weight:800}.stat .l{font-size:16px;color:#9ca3af;margin-top:3px}
+.card{background:#fff;border:1px solid #f5d6e5;border-radius:20px;padding:22px;box-shadow:0 4px 14px rgba(236,72,153,.04)}.grid2{display:grid;grid-template-columns:1fr 1fr;gap:24px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:16px}.title{font-size:16px;font-weight:750;margin:0 0 16px}.toolbar{display:flex;justify-content:space-between;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:18px}
+.btn{border:1px solid #f4c7db;background:#fff;color:#d91d78;padding:9px 13px;border-radius:10px;font-size:13px;font-weight:650}.btn:hover{background:#fff1f7}.btn.primary{background:#f72591;border-color:#f72591;color:#fff}.btn.danger{color:#e11d48;border-color:#fecdd3}.btn.gray{color:#6b7280;border-color:#e5e7eb}.actions{display:flex;gap:7px;flex-wrap:wrap}
+.tablewrap{overflow:auto}.table{width:100%;border-collapse:collapse;font-size:13px}.table th{text-align:left;color:#9ca3af;font-size:11px;padding:10px 8px;border-bottom:1px solid #f7dce9;white-space:nowrap}.table td{padding:11px 8px;border-bottom:1px solid #fff0f7;vertical-align:middle}.table tr:last-child td{border-bottom:0}
+.badge{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:11px;font-weight:700;border:1px solid #e5e7eb}.green{background:#ecfdf5;color:#047857;border-color:#a7f3d0}.rose{background:#fff1f2;color:#be123c;border-color:#fecdd3}.amber{background:#fffbeb;color:#b45309;border-color:#fde68a}.pink{background:#fdf2f8;color:#be185d;border-color:#fbcfe8}.gray{background:#f9fafb;color:#6b7280}
+.copy{border:1px solid #fbcfe8;background:#fdf2f8;color:#be185d;padding:5px 8px;border-radius:8px;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:11px;max-width:260px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.input{width:100%;border:1px solid #f0c9db;background:#fff;border-radius:10px;padding:10px 11px;outline:0;color:#273244}.input:focus{border-color:#f472b6;box-shadow:0 0 0 3px #fce7f3}.field{margin-bottom:14px}.field label{display:block;font-size:11px;color:#6b7280;font-weight:700;margin-bottom:6px}.form2{display:grid;grid-template-columns:1fr 1fr;gap:0 18px}.toggle{display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-top:1px solid #fff0f7;font-size:13px}.switch{width:43px;height:24px;border:0;border-radius:99px;background:#e5e7eb;padding:2px}.switch i{display:block;width:20px;height:20px;background:#fff;border-radius:50%;transition:.15s;box-shadow:0 1px 3px #aaa}.switch.on{background:#f72591}.switch.on i{transform:translateX(19px)}
+.empty{padding:45px;text-align:center;color:#9ca3af;border:2px dashed #f7dce9;border-radius:15px}.mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}.muted{color:#9ca3af;font-size:12px}.pre{background:#111827;color:#fce7f3;border-radius:12px;padding:15px;white-space:pre-wrap;word-break:break-word;overflow:auto;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}
+.modal{position:fixed;inset:0;background:rgba(17,24,39,.38);z-index:30;display:grid;place-items:center;padding:18px}.modalbox{background:#fff;width:min(700px,100%);max-height:92vh;overflow:auto;border-radius:20px;box-shadow:0 25px 80px rgba(0,0,0,.2)}.mh{padding:16px 20px;border-bottom:1px solid #f7dce9;display:flex;justify-content:space-between;align-items:center}.mb{padding:20px}.close{border:0;background:transparent;color:#9ca3af;font-size:25px}
+.toast{position:fixed;right:22px;bottom:22px;background:#111827;color:#fff;border-radius:10px;padding:11px 15px;font-size:13px;z-index:100;box-shadow:0 10px 30px #0003}.status{position:fixed;right:18px;top:16px;font-size:11px;background:#fff;border:1px solid #f5d6e5;border-radius:999px;padding:6px 9px;color:#9ca3af;z-index:10}.status.ok{color:#047857}.status.bad{color:#be123c}
+.barbox{display:grid;gap:10px}.barrow{display:grid;grid-template-columns:110px 1fr 45px;gap:8px;align-items:center;font-size:11px;color:#6b7280}.bar{height:13px;background:#fde7f1;border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:#f72591;border-radius:99px}.notice{padding:12px 14px;background:#fff7ed;border:1px solid #fed7aa;color:#9a3412;border-radius:10px;font-size:12px}.okbox{padding:12px 14px;background:#ecfdf5;border:1px solid #a7f3d0;color:#047857;border-radius:10px;font-size:12px}
+@media(max-width:1050px){.cards{grid-template-columns:1fr 1fr}.main{padding:30px}.sidebar{width:235px;flex-basis:235px}.grid2{grid-template-columns:1fr}}
+@media(max-width:700px){.app{display:block}.sidebar{width:100%;min-height:auto}.brand{height:auto}.nav{grid-template-columns:1fr 1fr;padding:12px}.nav button{font-size:13px;padding:11px}.main{padding:18px}.cards{grid-template-columns:1fr 1fr;gap:12px}.stat{padding:16px}.stat .n{font-size:25px}.stat .si{margin-bottom:12px}.form2{grid-template-columns:1fr}.head h1{font-size:27px}}
+</style>
 </head>
 <body>
-<div id="root"></div>
+<div id="app"><div class="app"><aside class="sidebar"><div class="brand"><div class="logo">⚿</div><div><b>Key Server</b><small>api-key-manager</small></div></div><nav class="nav"><button class="active"><span class="ico">▦</span>Trang chủ</button><button><span class="ico">▣</span>Quản lý Package</button><button><span class="ico">⚿</span>Quản lý Key</button><button><span class="ico">ⓘ</span>Gói đang sử dụng</button><button><span class="ico">▤</span>Tài liệu &amp; Tích hợp</button></nav></aside><main class="main"><div class="head"><h1>Trang chủ</h1><p>Tổng quan sử dụng key và danh sách cấm</p></div><div class="cards"><div class="stat"><div class="si">▣</div><div class="n">0</div><div class="l">Package</div></div><div class="stat"><div class="si">⚿</div><div class="n">0</div><div class="l">Tổng key</div></div><div class="stat"><div class="si">⊘</div><div class="n">0</div><div class="l">Key bị ban</div></div><div class="stat"><div class="si">▣</div><div class="n">0</div><div class="l">Thiết bị bị ban</div></div></div><div class="card"><h3 class="title">Key Server</h3><div class="okbox">Trang chủ đã tải. Đang đồng bộ Firebase ở phía sau…</div></div></main></div></div>
 <script>
-(function(){
 "use strict";
-const DB="https://apiseverkey-a1436-default-rtdb.asia-southeast1.firebasedatabase.app";
-const API_KEY="AIzaSyBcFSLEz5XN8bg61coRU43yTj3_cTwZDbc";
-let auth={idToken:null,refreshToken:null,expiresAt:0}, state={packages:[],keys:[],bannedDevices:[]};
-let tab="dashboard", query="", toastTimer=null, editingPackage=null, detailKey=null, showPackage=false;
-const root=document.getElementById("root");
-const $=s=>document.querySelector(s);
-const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
-const rand=(n=6)=>Array.from({length:n},()=> "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random()*32)]).join("");
-const uid=()=>Math.random().toString(36).slice(2,10);
-const genKey=()=>`PK-${rand(4)}-${rand(4)}-${rand(4)}`;
-const genToken=()=>`tok_${(rand(8)+rand(8)).toLowerCase()}`;
-const fmt=ts=>ts?new Date(ts).toLocaleDateString("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric"}):"—";
-const left=ts=>{let d=(Number(ts)||0)-Date.now();if(d<=0)return {t:"Hết hạn",bad:true};let days=Math.floor(d/86400000),h=Math.floor((d%86400000)/3600000);return {t:days?`còn ${days} ngày`:`còn ${h} giờ`,bad:false}};
-const durations={1d:86400000,3d:259200000,7d:604800000,1th:2592000000,3th:7776000000,1nam:31536000000};
-function notify(s){clearTimeout(toastTimer);let e=document.createElement("div");e.className="toast";e.textContent=s;document.body.appendChild(e);toastTimer=setTimeout(()=>e.remove(),2300)}
-async function signIn(){let r=await fetch("https://identitytoolkit.googleapis.com/v1/accounts:signUp?key="+encodeURIComponent(API_KEY),{method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({returnSecureToken:true})});let d=await r.json();if(!r.ok||!d.idToken)throw Error(d.error?.message||"Anonymous Auth thất bại");auth={idToken:d.idToken,refreshToken:d.refreshToken,expiresAt:Date.now()+Number(d.expiresIn)*1000-60000}}
-async function token(){if(!auth.idToken||Date.now()>=auth.expiresAt){if(auth.refreshToken&&auth.idToken){let r=await fetch("https://securetoken.googleapis.com/v1/token?key="+encodeURIComponent(API_KEY),{method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},body:"grant_type=refresh_token&refresh_token="+encodeURIComponent(auth.refreshToken)});let d=await r.json();if(r.ok&&d.id_token){auth={idToken:d.id_token,refreshToken:d.refresh_token,expiresAt:Date.now()+Number(d.expires_in)*1000-60000};return auth.idToken}}await signIn()}return auth.idToken}
-async function load(){let t=await token(),r=await fetch(DB+"/app-data.json?auth="+encodeURIComponent(t));let d=await r.json();if(!r.ok)throw Error(d?.error||"Không đọc được /app-data");state={packages:Array.isArray(d?.packages)?d.packages:[],keys:Array.isArray(d?.keys)?d.keys:[],bannedDevices:Array.isArray(d?.bannedDevices)?d.bannedDevices:[]};render()}
-let saveTimer=null;
-function save(){clearTimeout(saveTimer);saveTimer=setTimeout(async()=>{try{let t=await token(),r=await fetch(DB+"/app-data.json?auth="+encodeURIComponent(t),{method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(state)});if(!r.ok)throw Error("HTTP "+r.status);notify("Đã lưu Firebase")}catch(e){notify("Lưu Firebase lỗi: "+e.message)}},350)}
-async function refresh(){try{await load();notify("Đã làm mới dữ liệu")}catch(e){notify("Firebase chưa đồng bộ: "+e.message)}}
-function copy(v){navigator.clipboard?.writeText(v).then(()=>notify("Đã sao chép")).catch(()=>notify("Không thể sao chép"))}
-function badge(text,c){return `<span class="badge ${c}">${esc(text)}</span>`}
-function top(title,sub,buttons=""){return `<div class="top"><div><h1>${esc(title)}</h1><p>${esc(sub)}</p></div><div class="actions">${buttons}</div></div>`}
-function stat(label,n,icon=""){return `<div class="card stat"><div class="ico">${icon}</div><div class="num">${n}</div><div class="label">${esc(label)}</div></div>`}
-function nav(){const items=[["dashboard","▦","Trang chủ"],["packages","▣","Quản lý Package"],["keys","⚿","Quản lý Key"],["devices","ⓘ","Gói đang sử dụng"],["docs","▤","Tài liệu & Tích hợp"],["messages","✉","Tin nhắn"],["database","⌘","Database"]];return `<div class="nav">${items.map(x=>`<button class="${tab===x[0]?"active":""}" onclick="window.go('${x[0]}')"><span class="navico">${x[1]}</span>${x[2]}</button>`).join("")}</div>`}
-function shell(body){root.innerHTML=`<div class="app"><aside class="side"><div class="brand"><div class="logo">K</div><div><b>Key Server Admin</b><small>Firebase / app-data</small></div></div>${nav()}</aside><main class="content">${body}</main></div>`}
-function dashboard(){
-let active=state.keys.filter(k=>!k.banned&&!left(k.expiresAt).bad).length,
-expired=state.keys.filter(k=>left(k.expiresAt).bad).length,
-banned=state.keys.filter(k=>k.banned).length,
-used=state.keys.filter(k=>k.uid||Number(k.usedCount)>0).length;
-return top("Trang chủ","Tổng quan sử dụng key và danh sách cấm.",`<button class="btn" onclick="window.refresh()">↻ Làm mới</button><button class="btn primary" onclick="window.go('keys');window.openCreateKey()">+ Tạo Key</button>`)
-+`<div class="grid stats four">${stat("Package",state.packages.length,"▣")}${stat("Tổng key",state.keys.length,"⚿")}${stat("Key đang sử dụng",used,"ⓘ")}${stat("Key bị cấm",banned,"⊘")}</div>
-<div class="grid layout2" style="margin-top:18px">
-<div class="card home-card"><div class="card-head"><div><h3 class="section-title">Danh sách Package</h3><p class="muted">Các package đang được quản lý</p></div><button class="btn" onclick="window.go('packages')">Xem tất cả</button></div>
-${state.packages.length?`<div class="table-wrap"><table class="table"><tr><th>Package</th><th>Version</th><th>Key</th><th>Trạng thái</th></tr>${state.packages.slice(0,8).map(p=>`<tr><td><b>${esc(p.name)}</b><br><small>${esc(p.keyName||"")}</small></td><td>v${esc(p.version)}</td><td>${state.keys.filter(k=>k.packageId===p.id).length}</td><td>${p.status==="active"?badge("Hoạt động","green"):badge("Bảo trì","amber")}</td></tr>`).join("")}</table></div>`:`<div class="empty">Chưa có package. <button class="btn primary" onclick="window.go('packages');window.openPackage()">Tạo package đầu tiên</button></div>`}</div>
-<div class="card home-card"><div class="card-head"><div><h3 class="section-title">Key mới nhất</h3><p class="muted">Danh sách key vừa tạo hoặc cập nhật</p></div><button class="btn" onclick="window.go('keys')">Quản lý Key</button></div>
-${state.keys.length?`<div class="table-wrap"><table class="table"><tr><th>Key</th><th>Package</th><th>Hạn</th><th></th></tr>${[...state.keys].sort((a,b)=>(b.createdAt||0)-(a.createdAt||0)).slice(0,8).map(k=>{let p=state.packages.find(x=>x.id===k.packageId),l=left(k.expiresAt);return `<tr><td><button class="copy mono" onclick="window.copy('${esc(k.value)}')">${esc(k.value)}</button></td><td>${esc(p?.name||"—")}</td><td>${badge(l.t,l.bad?"red":"green")}</td><td><button class="btn" onclick="window.openDetail('${k.id}')">Chi tiết</button></td></tr>`}).join("")}</table></div>`:`<div class="empty">Chưa có API Key.</div>`}</div></div>
-<div class="grid layout2" style="margin-top:18px">
-<div class="card home-card"><div class="card-head"><div><h3 class="section-title">Trạng thái sử dụng</h3><p class="muted">Theo dõi nhanh tình trạng key</p></div></div><div class="mini-grid"><div><b>${active}</b><span>Đang hoạt động</span></div><div><b>${expired}</b><span>Đã hết hạn</span></div><div><b>${banned}</b><span>Bị cấm</span></div><div><b>${state.bannedDevices.length}</b><span>UID bị cấm</span></div></div></div>
-<div class="card home-card"><div class="card-head"><div><h3 class="section-title">Firebase Database</h3><p class="muted">Kết nối dữ liệu quản trị</p></div>${badge("Đã cấu hình","green")}</div><div class="db-box"><div><span>Database</span><b class="mono">${DB}</b></div><div><span>Node</span><b class="mono">/app-data</b></div><div><span>Schema</span><b>packages · keys · bannedDevices</b></div></div></div></div>`
+
+/* ================= FIREBASE CONFIG — ĐÃ ĐIỀN ================= */
+const FIREBASE_CONFIG = {
+  apiKey: "AIzaSyBcFSLEz5XN8bg61coRU43yTj3_cTwZDbc",
+  authDomain: "apiseverkey-a1436.firebaseapp.com",
+  databaseURL: "https://apiseverkey-a1436-default-rtdb.asia-southeast1.firebasedatabase.app",
+  projectId: "apiseverkey-a1436",
+  storageBucket: "apiseverkey-a1436.firebasestorage.app",
+  messagingSenderId: "350777229577",
+  appId: "1:350777229577:web:76fef9ba881001e60193d8",
+  measurementId: "G-1RJ7F5Q7NN"
+};
+/* Database hiện tại được giữ nguyên: /app-data */
+const DB_URL = FIREBASE_CONFIG.databaseURL;
+let auth = {idToken:null, refreshToken:null, expiresAt:0};
+let state = {packages:[],keys:[],bannedDevices:[]};
+let currentTab = "dashboard";
+let toastTimer = null;
+
+const DURATIONS = [
+  ["1d","1 ngày",86400000],["3d","3 ngày",259200000],["7d","7 ngày",604800000],
+  ["1th","1 tháng",2592000000],["3th","3 tháng",7776000000],["1nam","1 năm",31536000000]
+];
+const $ = s => document.querySelector(s);
+const esc = v => String(v ?? "").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const uid = () => Math.random().toString(36).slice(2,10);
+const rand = n => Array.from({length:n},()=> "ABCDEFGHJKLMNPQRSTUVWXYZ23456789"[Math.floor(Math.random()*32)]).join("");
+const genKey = () => `PK-${rand(4)}-${rand(4)}-${rand(4)}`;
+const genToken = () => `tok_${(rand(8)+rand(8)).toLowerCase()}`;
+const fmt = ts => ts ? new Date(ts).toLocaleDateString("vi-VN",{day:"2-digit",month:"2-digit",year:"numeric"}) : "—";
+const left = ts => {const d=(Number(ts)||0)-Date.now(); if(d<=0)return {label:"Hết hạn",expired:true}; const days=Math.floor(d/86400000),h=Math.floor(d%86400000/3600000);return {label:days?`còn ${days} ngày`:`còn ${h} giờ`,expired:false}};
+function toast(msg){clearTimeout(toastTimer);const x=document.createElement("div");x.className="toast";x.textContent=msg;document.body.appendChild(x);toastTimer=setTimeout(()=>x.remove(),2400)}
+function copy(v){navigator.clipboard?.writeText(v).then(()=>toast("Đã sao chép")).catch(()=>toast("Không thể sao chép"))}
+function badge(t,c="pink"){return `<span class="badge ${c}">${esc(t)}</span>`}
+function info(label,value){return `<div><div class="muted">${esc(label)}</div><b>${esc(value)}</b></div>`}
+
+async function signIn(){
+  const r=await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${encodeURIComponent(FIREBASE_CONFIG.apiKey)}`,{
+    method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({returnSecureToken:true})
+  });
+  const d=await r.json();
+  if(!r.ok || !d.idToken) throw Error(d.error?.message||"Anonymous Auth thất bại");
+  auth={idToken:d.idToken,refreshToken:d.refreshToken,expiresAt:Date.now()+Number(d.expiresIn)*1000-60000};
 }
-function packageModal(p){let f=p||{name:"",description:"",keyName:"",version:"1.0.0",status:"active",allowFreeLogin:false,getRealUidIOS:false,contactLink:"",updateLink:"",notifyMessage:""};return `<div class="modal"><div class="modalbox"><div class="modalhead"><b>${p?"Chỉnh sửa package":"Tạo package"}</b><button class="close" onclick="window.closeModal()">×</button></div><div class="modalbody"><div class="formgrid">${field("Tên package","pkg_name",f.name,"VD: App Pro Package")}${field("Tên key","pkg_keyName",f.keyName,"VD: PRO-KEY")}${field("Mô tả","pkg_description",f.description,"Mô tả package")}${field("Version","pkg_version",f.version,"1.0.0")}${selectField("Trạng thái","pkg_status",f.status,[["active","Đang hoạt động"],["maintenance","Bảo trì"]])}${field("Link liên hệ","pkg_contactLink",f.contactLink,"https://...")}${field("Link cập nhật app","pkg_updateLink",f.updateLink,"https://...")}${field("Thông báo đến người dùng","pkg_notifyMessage",f.notifyMessage,"Thông báo")}</div><div class="toggle"><span>Cho phép đăng nhập key miễn phí</span><button id="pkg_free" class="switch ${f.allowFreeLogin?"on":""}" onclick="this.classList.toggle('on')"><i></i></button></div><div class="toggle"><span>Lấy UID thật từ iOS</span><button id="pkg_ios" class="switch ${f.getRealUidIOS?"on":""}" onclick="this.classList.toggle('on')"><i></i></button></div><div class="actions" style="justify-content:flex-end;margin-top:15px"><button class="btn" onclick="window.closeModal()">Huỷ</button><button class="btn primary" onclick="window.savePackage('${p?.id||""}')">${p?"Lưu thay đổi":"Tạo package"}</button></div></div></div></div>`}
-function field(label,id,val,ph=""){return `<div class="field"><label>${esc(label)}</label><input id="${id}" class="input" value="${esc(val)}" placeholder="${esc(ph)}"></div>`}
-function selectField(label,id,val,opts){return `<div class="field"><label>${esc(label)}</label><select id="${id}" class="input">${opts.map(o=>`<option value="${o[0]}" ${o[0]===val?"selected":""}>${o[1]}</option>`).join("")}</select></div>`}
-function packages(){let btn=`<button class="btn primary" onclick="window.openPackage()">+ Tạo package</button>`;return top("Package / API","Quản lý toàn bộ package và API credential.",btn)+`<div class="grid layout2">${state.packages.length?state.packages.map(p=>{let ks=state.keys.filter(k=>k.packageId===p.id),uids=ks.filter(k=>k.uid).length;return `<div class="card"><div class="toolbar"><div><h3 style="margin:0">${esc(p.name)}</h3><small style="color:#9ca3af">Tạo ${fmt(p.createdAt)}</small></div>${p.status==="active"?badge("Hoạt động","green"):badge("Bảo trì","amber")}</div><p style="font-size:13px;color:#6b7280">${esc(p.description||"Không có mô tả")}</p><div class="actions" style="margin:10px 0">${badge("v"+p.version,"gray")}${badge(ks.length+" key","pink")}${p.allowFreeLogin?badge("Free login","gray"):""}${p.getRealUidIOS?badge("UID iOS thật","gray"):""}</div><div style="font-size:11px;color:#9ca3af">API Key package</div><button class="copy mono" onclick="window.copy('${esc(p.apiKey||"")}')">${esc(p.apiKey||"—")}</button><div style="font-size:11px;color:#9ca3af;margin-top:8px">Token</div><button class="copy mono" onclick="window.copy('${esc(p.token||"")}')">${esc(p.token||"—")}</button><div style="font-size:12px;color:#6b7280;margin-top:10px">UID đã nhập: <b>${uids}</b> · ${esc(p.notifyMessage||"Không có thông báo")}</div><div class="actions" style="margin-top:14px;padding-top:12px;border-top:1px solid #fff0f7"><button class="btn" onclick="window.openPackage('${p.id}')">Chỉnh sửa</button><button class="btn" onclick="window.resetPackage('${p.id}')">Reset key</button><button class="btn danger" onclick="window.deletePackage('${p.id}')">Xoá package</button></div></div>`}).join(""):`<div class="card" style="grid-column:1/-1"><div class="empty">Chưa có package. Tạo package đầu tiên.</div></div>`}</div>`}
-function keys(){let list=state.keys.filter(k=>{let p=state.packages.find(x=>x.id===k.packageId);let q=query.toLowerCase();return !q||[k.name,k.value,k.uid,k.note,p?.name].join(" ").toLowerCase().includes(q)});return top("Tất cả API Key","Quản lý toàn bộ key đang nằm trong /app-data.",`<div class="search"><span>⌕</span><input id="keysearch" class="input" style="width:250px" placeholder="Tìm key, UID, package..." value="${esc(query)}" oninput="window.setQuery(this.value)"></div><button class="btn primary" onclick="window.openCreateKey()">+ Tạo Key</button><button class="btn danger" onclick="window.clearKeys()">Dọn tất cả Key</button>`)+`<div class="card"><div class="toolbar"><h3 class="section-title" style="margin:0">Danh sách (${list.length})</h3></div>${list.length?`<div class="table-wrap"><table class="table"><tr><th>Tên</th><th>Key</th><th>Package</th><th>Lượt dùng</th><th>UID</th><th>Hạn</th><th>Trạng thái</th><th>Thao tác</th></tr>${list.map(k=>{let p=state.packages.find(x=>x.id===k.packageId),l=left(k.expiresAt);return `<tr><td><b>${esc(k.name)}</b>${k.messages?.length?`<br>${badge(k.messages.length+" tin nhắn","pink")}`:""}</td><td><button class="copy mono" onclick="window.copy('${esc(k.value)}')">${esc(k.value)}</button></td><td>${esc(p?.name||"—")}</td><td>${k.usedCount||0}/${k.maxUses||0}</td><td class="mono" style="font-size:11px">${esc(k.uid||"—")}</td><td>${badge(l.t,l.bad?"red":"green")}</td><td>${k.banned?badge("Đã ban","red"):badge("Hoạt động","green")}</td><td><div class="actions"><button class="btn" onclick="window.openDetail('${k.id}')">Chi tiết</button><button class="btn" onclick="window.toggleBan('${k.id}')">${k.banned?"Bỏ ban":"Ban"}</button><button class="btn danger" onclick="window.deleteKey('${k.id}')">Xoá</button></div></td></tr>`}).join("")}</table></div>`:`<div class="empty">Không có key phù hợp.</div>`}</div>`}
-function keyModal(k){let p=state.packages.find(x=>x.id===k.packageId),l=left(k.expiresAt);return `<div class="modal"><div class="modalbox"><div class="modalhead"><div><b>${esc(k.name)}</b> ${k.banned?badge("Đã ban","red"):badge(l.t,l.bad?"red":"green")}<div style="font-size:11px;color:#9ca3af;margin-top:3px">${esc(p?.name||"—")} · ${esc(k.value)}</div></div><button class="close" onclick="window.closeModal()">×</button></div><div class="modalbody"><div class="grid layout3">${info("UID",k.uid||"Chưa có")}${info("Lượt dùng",`${k.usedCount||0}/${k.maxUses||0}`)}${info("Tạo",fmt(k.createdAt))}</div><div class="field" style="margin-top:15px"><label>Ghi chú nội bộ</label><textarea id="key_note" class="input" rows="3">${esc(k.note||"")}</textarea></div><div class="actions" style="justify-content:flex-end"><button class="btn primary" onclick="window.saveNote('${k.id}')">Lưu ghi chú</button></div><hr style="border:0;border-top:1px solid #fce7f3;margin:18px 0"><div class="field"><label>UID thiết bị</label><input id="key_uid" class="input" value="${esc(k.uid||"")}" placeholder="UID"></div><div class="actions"><button class="btn" onclick="window.setUID('${k.id}')">Lưu UID / cộng 1 lượt</button><button class="btn danger" onclick="window.toggleBan('${k.id}');window.closeModal()">Ban / bỏ ban</button></div><div style="margin-top:18px"><b style="font-size:13px">Tin nhắn đã gửi</b><div style="margin-top:8px">${(k.messages||[]).length?[...(k.messages||[])].reverse().map(m=>`<div style="padding:8px;background:#fdf2f8;border:1px solid #fbcfe8;border-radius:8px;margin:5px 0;font-size:12px">${esc(m.text)}<small style="display:block;color:#9ca3af;margin-top:3px">${new Date(m.sentAt).toLocaleString("vi-VN")}</small></div>`).join(""):`<p style="font-size:12px;color:#9ca3af">Chưa có tin nhắn.</p>`}</div><div class="actions" style="margin-top:8px"><input id="key_msg" class="input" placeholder="Tin nhắn đến người dùng"><button class="btn primary" onclick="window.sendMessage('${k.id}')">Gửi</button></div></div></div></div>`}
-function info(a,b){return `<div><div style="font-size:11px;color:#9ca3af">${esc(a)}</div><b style="font-size:13px">${esc(b)}</b></div>`}
-function createKeyModal(){let first=state.packages[0]?.id||"";return `<div class="modal"><div class="modalbox"><div class="modalhead"><b>Tạo API Key</b><button class="close" onclick="window.closeModal()">×</button></div><div class="modalbody">${selectField("Package","new_pkg",first,state.packages.map(p=>[p.id,p.name]))}${field("Tên key","new_name",state.packages.find(p=>p.id===first)?.keyName||"API Key","Tên hiển thị")}${field("Số lượt nhập","new_uses","1","1") }<div class="field"><label>Thời hạn</label><select id="new_duration" class="input"><option value="1d">1 ngày</option><option value="3d">3 ngày</option><option value="7d" selected>7 ngày</option><option value="1th">1 tháng</option><option value="3th">3 tháng</option><option value="1nam">1 năm</option></select></div><div class="actions" style="justify-content:flex-end"><button class="btn" onclick="window.closeModal()">Huỷ</button><button class="btn primary" onclick="window.createKey()">Tạo Key</button></div></div></div></div>`}
-function devices(){let map={};state.keys.forEach(k=>{if(k.uid){map[k.uid]??=[];map[k.uid].push(k)}});return top("UID / Thiết bị","Theo dõi UID đã sử dụng key và danh sách bị ban.",`<button class="btn primary" onclick="window.promptBan()">+ Ban UID</button>`)+`<div class="card"><h3 class="section-title">Thiết bị đã xuất hiện (${Object.keys(map).length})</h3>${Object.keys(map).length?`<div class="table-wrap"><table class="table"><tr><th>UID</th><th>Số key</th><th>Key</th><th>Ban</th></tr>${Object.entries(map).map(([d,ks])=>`<tr><td class="mono">${esc(d)}</td><td>${ks.length}</td><td>${ks.map(k=>esc(k.value)).join(", ")}</td><td>${state.bannedDevices.includes(d)?badge("Đã ban","red"):`<button class="btn danger" onclick="window.banDevice('${esc(d)}')">Ban UID</button>`}</td></tr>`).join("")}</table></div>`:`<div class="empty">Chưa có UID.</div>`}</div><div class="card" style="margin-top:16px"><h3 class="section-title">UID bị ban (${state.bannedDevices.length})</h3>${state.bannedDevices.map(d=>`<div style="display:flex;justify-content:space-between;padding:8px;border-bottom:1px solid #fff0f7"><span class="mono">${esc(d)}</span><button class="btn" onclick="window.unbanDevice('${esc(d)}')">Bỏ ban</button></div>`).join("")||`<div class="empty">Không có.</div>`}</div>`}
-function messages(){let rows=[];state.keys.forEach(k=>(k.messages||[]).forEach(m=>rows.push({k,m})));rows.sort((a,b)=>(b.m.sentAt||0)-(a.m.sentAt||0));return top("Tin nhắn","Quản lý các thông báo đã gửi theo từng API Key.")+`<div class="card">${rows.length?`<div class="table-wrap"><table class="table"><tr><th>Thời gian</th><th>Key</th><th>Package</th><th>Nội dung</th></tr>${rows.map(r=>{let p=state.packages.find(x=>x.id===r.k.packageId);return `<tr><td>${new Date(r.m.sentAt).toLocaleString("vi-VN")}</td><td class="mono">${esc(r.k.value)}</td><td>${esc(p?.name||"—")}</td><td>${esc(r.m.text)}</td></tr>`}).join("")}</table></div>`:`<div class="empty">Chưa có tin nhắn.</div>`}</div>`}
-function database(){return top("Database","Xem đúng dữ liệu đang lưu trong node /app-data, không thay đổi schema.",`<button class="btn" onclick="window.refresh()">↻ Đọc lại</button><button class="btn dark" onclick="window.downloadJSON()">Tải JSON</button>`)+`<div class="notice">Database URL: <span class="mono">${DB}</span><br>Node quản lý: <b>/app-data</b>. Các thao tác của trang này chỉ ghi <b>packages</b>, <b>keys</b>, <b>bannedDevices</b> về đúng node đó.</div><div class="card" style="margin-top:16px"><div class="pre json">${esc(JSON.stringify(state,null,2))}</div></div>`}
-function docs(){let p=state.packages[0];return top("Tích hợp / Docs","Thông tin để app của bạn xác thực key.")+`<div class="grid layout2"><div class="card"><h3 class="section-title">Firebase config</h3><div class="pre">projectId: apiseverkey-a1436
-databaseURL: ${DB}
-authDomain: apiseverkey-a1436.firebaseapp.com
-appId: 1:350777229577:web:76fef9ba881001e60193d8</div><p style="font-size:12px;color:#9ca3af">API key Firebase được dùng để Anonymous Auth; bảo mật dữ liệu phải đặt ở Firebase Rules.</p></div><div class="card"><h3 class="section-title">Package API</h3>${p?`<div>${info("Package",p.name)}${info("Version","v"+p.version)}<div style="margin-top:10px">${info("API Key",p.apiKey||"—")}${info("Token",p.token||"—")}</div></div>`:`<div class="empty">Chưa có package.</div>`}</div></div>`}
-function render(){let body=tab==="dashboard"?dashboard():tab==="packages"?packages():tab==="keys"?keys():tab==="devices"?devices():tab==="messages"?messages():tab==="database"?database():docs();shell(body);if(showPackage){root.insertAdjacentHTML("beforeend",packageModal(editingPackage?state.packages.find(p=>p.id===editingPackage):null))}if(detailKey){let k=state.keys.find(x=>x.id===detailKey);if(k)root.insertAdjacentHTML("beforeend",keyModal(k))}}
-function showError(e){root.innerHTML=`<div style="max-width:760px;margin:50px auto;padding:25px;font-family:system-ui"><h2 style="margin-top:0">Không thể tải Admin</h2><div class="notice">${esc(e.message||e)}</div><p style="color:#6b7280">Kiểm tra Firebase Anonymous Auth, API key và Realtime Database Rules. Trang không còn để trắng khi có lỗi.</p><button class="btn primary" onclick="location.reload()">Thử lại</button></div>`}
-window.go=t=>{tab=t;query="";showPackage=false;editingPackage=null;detailKey=null;render()}
-window.refresh=refresh;window.copy=copy;window.setQuery=v=>{query=v;render();setTimeout(()=>{let x=$("#keysearch");x?.focus();x?.setSelectionRange(v.length,v.length)},0)}
-window.closeModal=()=>{showPackage=false;editingPackage=null;detailKey=null;render()}
-window.openPackage=id=>{editingPackage=id||null;showPackage=true;render()}
-window.openDetail=id=>{detailKey=id;render()}
-window.openCreateKey=()=>{if(!state.packages.length)return notify("Hãy tạo package trước");root.insertAdjacentHTML("beforeend",createKeyModal())}
-window.savePackage=id=>{let f={name:$("#pkg_name").value.trim(),description:$("#pkg_description").value.trim(),keyName:$("#pkg_keyName").value.trim(),version:$("#pkg_version").value.trim()||"1.0.0",status:$("#pkg_status").value,contactLink:$("#pkg_contactLink").value.trim(),updateLink:$("#pkg_updateLink").value.trim(),notifyMessage:$("#pkg_notifyMessage").value.trim(),allowFreeLogin:$("#pkg_free").classList.contains("on"),getRealUidIOS:$("#pkg_ios").classList.contains("on")};if(!f.name)return notify("Nhập tên package");if(id)state.packages=state.packages.map(p=>p.id===id?{...p,...f}:p);else state.packages.unshift({...f,id:uid(),apiKey:genKey(),token:genToken(),createdAt:Date.now()});save();showPackage=false;editingPackage=null;render();notify(id?"Đã cập nhật package":"Đã tạo package")}
-window.deletePackage=id=>{let p=state.packages.find(x=>x.id===id);if(!p)return;if(!confirm(`Xoá package "${p.name}" và toàn bộ key của package?`))return;state.packages=state.packages.filter(x=>x.id!==id);state.keys=state.keys.filter(x=>x.packageId!==id);save();render();notify("Đã xoá package và key")}
-window.resetPackage=id=>{state.keys=state.keys.map(k=>k.packageId===id?{...k,usedCount:0,uid:null,banned:false}:k);save();render();notify("Đã reset toàn bộ key")}
-window.createKey=()=>{let pkg=$("#new_pkg").value,p=state.packages.find(x=>x.id===pkg),uses=Math.max(1,Number($("#new_uses").value)||1),dur=$("#new_duration").value;if(!p)return notify("Chưa có package");state.keys.unshift({id:uid(),packageId:p.id,name:$("#new_name").value.trim()||p.keyName||"API Key",value:genKey(),maxUses:uses,usedCount:0,createdAt:Date.now(),expiresAt:Date.now()+durations[dur],banned:false,uid:null,note:"",messages:[]});save();render();notify("Đã tạo API Key")}
-window.toggleBan=id=>{state.keys=state.keys.map(k=>k.id===id?{...k,banned:!k.banned}:k);save();render();notify("Đã cập nhật trạng thái ban")}
-window.deleteKey=id=>{if(!confirm("Xoá key này?"))return;state.keys=state.keys.filter(k=>k.id!==id);save();render();notify("Đã xoá key")}
-window.clearKeys=()=>{if(!state.keys.length||!confirm("Xoá toàn bộ key?"))return;state.keys=[];save();render();notify("Đã dọn toàn bộ key")}
-window.saveNote=id=>{let v=$("#key_note").value;state.keys=state.keys.map(k=>k.id===id?{...k,note:v}:k);save();detailKey=id;render();notify("Đã lưu ghi chú")}
-window.setUID=id=>{let v=$("#key_uid").value.trim();state.keys=state.keys.map(k=>k.id===id?{...k,uid:v,usedCount:Math.min(k.maxUses||0,(k.usedCount||0)+(v?1:0))}:k);save();render();notify("Đã cập nhật UID")}
-window.sendMessage=id=>{let v=$("#key_msg").value.trim();if(!v)return;state.keys=state.keys.map(k=>k.id===id?{...k,messages:[...(k.messages||[]),{text:v,sentAt:Date.now()}]}:k);save();render();notify("Đã gửi tin nhắn")}
-window.banDevice=d=>{if(!d)return;if(!state.bannedDevices.includes(d))state.bannedDevices.push(d);save();render();notify("Đã ban UID")}
-window.unbanDevice=d=>{state.bannedDevices=state.bannedDevices.filter(x=>x!==d);save();render();notify("Đã bỏ ban UID")}
-window.promptBan=()=>{let d=prompt("Nhập UID thiết bị cần ban:");if(d?.trim())window.banDevice(d.trim())}
-window.downloadJSON=()=>{let a=document.createElement("a"),b=new Blob([JSON.stringify(state,null,2)],{type:"application/json"});a.href=URL.createObjectURL(b);a.download="app-data-backup.json";a.click();URL.revokeObjectURL(a.href)}
-window.addEventListener("error",e=>{if(e.error)console.error(e.error)});
-render(); load().catch(e=>{console.error(e); notify("Firebase chưa đồng bộ: "+(e.message||e));});
-})();
+async function refreshToken(){
+  const r=await fetch(`https://securetoken.googleapis.com/v1/token?key=${encodeURIComponent(FIREBASE_CONFIG.apiKey)}`,{
+    method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
+    body:`grant_type=refresh_token&refresh_token=${encodeURIComponent(auth.refreshToken)}`
+  });
+  const d=await r.json();
+  if(!r.ok||!d.id_token) throw Error(d.error?.message||"Refresh token thất bại");
+  auth={idToken:d.id_token,refreshToken:d.refresh_token,expiresAt:Date.now()+Number(d.expires_in)*1000-60000};
+}
+async function ensureAuth(){
+  if(auth.idToken && Date.now()<auth.expiresAt)return auth.idToken;
+  if(auth.refreshToken){try{await refreshToken();return auth.idToken}catch(e){}}
+  await signIn(); return auth.idToken;
+}
+async function firebaseLoad(){
+  const t=await ensureAuth();
+  const r=await fetch(`${DB_URL}/app-data.json?auth=${encodeURIComponent(t)}`);
+  const d=await r.json();
+  if(!r.ok)throw Error(d?.error||`Database HTTP ${r.status}`);
+  return d||{};
+}
+let saveTimer;
+function scheduleSave(){
+  clearTimeout(saveTimer);
+  saveTimer=setTimeout(async()=>{
+    try{
+      const t=await ensureAuth();
+      const r=await fetch(`${DB_URL}/app-data.json?auth=${encodeURIComponent(t)}`,{
+        method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(state)
+      });
+      if(!r.ok){const d=await r.json().catch(()=>({}));throw Error(d?.error||`HTTP ${r.status}`)}
+      setStatus(true,"Firebase đã lưu");
+    }catch(e){setStatus(false,"Chưa đồng bộ Firebase");toast("Lưu Firebase lỗi: "+e.message)}
+  },250);
+}
+function setStatus(ok,msg){const x=$(".status");if(x){x.className="status "+(ok?"ok":"bad");x.textContent=msg}}
+async function syncFromFirebase(show=true){
+  try{
+    const d=await firebaseLoad();
+    state={packages:Array.isArray(d.packages)?d.packages:[],keys:Array.isArray(d.keys)?d.keys:[],bannedDevices:Array.isArray(d.bannedDevices)?d.bannedDevices:[]};
+    render();setStatus(true,"Firebase đã kết nối");if(show)toast("Đã làm mới dữ liệu");
+  }catch(e){setStatus(false,"Firebase chưa kết nối");if(show)toast("Không đọc được Firebase: "+e.message)}
+}
+function mutate(fn,msg){fn();render();scheduleSave();if(msg)toast(msg)}
+
+function shell(){
+  const nav=[
+    ["dashboard","▦","Trang chủ"],["packages","▣","Quản lý Package"],["keys","⚿","Quản lý Key"],
+    ["usage","ⓘ","Gói đang sử dụng"],["docs","▤","Tài liệu & Tích hợp"]
+  ];
+  return `<div class="app"><aside class="sidebar">
+    <div class="brand"><div class="logo">⚿</div><div><b>Key Server</b><small>api-key-manager</small></div></div>
+    <nav class="nav">${nav.map(n=>`<button class="${currentTab===n[0]?"active":""}" onclick="go('${n[0]}')"><span class="ico">${n[1]}</span>${n[2]}</button>`).join("")}</nav>
+  </aside><main class="main"><div class="status">Đang tải dữ liệu…</div><div id="view"></div></main></div>`;
+}
+function render(){document.getElementById("app").innerHTML=shell();const v=$("#view");if(currentTab==="dashboard")v.innerHTML=dashboard();if(currentTab==="packages")v.innerHTML=packages();if(currentTab==="keys")v.innerHTML=keys();if(currentTab==="usage")v.innerHTML=usage();if(currentTab==="docs")v.innerHTML=docs();}
+
+function dashboard(){
+  const bannedKeys=state.keys.filter(k=>k.banned), active=state.keys.filter(k=>!k.banned&&!left(k.expiresAt).expired);
+  const rows=state.packages.map(p=>{const ks=state.keys.filter(k=>k.packageId===p.id),used=ks.reduce((s,k)=>s+(Number(k.usedCount)||0),0),max=ks.reduce((s,k)=>s+(Number(k.maxUses)||0),0);return {p,used,max,remain:Math.max(max-used,0)}})
+  const max=Math.max(...rows.map(x=>x.used+x.remain),1);
+  return `<div class="head"><h1>Trang chủ</h1><p>Tổng quan sử dụng key và danh sách cấm</p></div>
+  <div class="cards">
+    ${stat("Package",state.packages.length,"▣")}
+    ${stat("Tổng key",state.keys.length,"⚿")}
+    ${stat("Key bị ban",bannedKeys.length,"⊘","rose")}
+    ${stat("Thiết bị bị ban",state.bannedDevices.length,"▣","rose")}
+  </div>
+  <div class="card" style="margin-bottom:24px"><h3 class="title">Sơ đồ lượt key đã sử dụng theo package</h3>
+    ${rows.length?`<div class="barbox">${rows.map(x=>`<div class="barrow"><span>${esc(x.p.name)}</span><div class="bar"><i style="width:${Math.min(100,x.used/max*100)}%"></i></div><b>${x.used}</b></div>`).join("")}</div>`:`<div class="empty">Chưa có package nào để hiển thị.</div>`}
+  </div>
+  <div class="grid2">
+    <div class="card"><h3 class="title">Key đã ban</h3>${bannedKeys.length?bannedKeys.map(k=>`<div style="display:flex;justify-content:space-between;gap:10px;padding:9px 0;border-bottom:1px solid #fff0f7"><span class="mono" style="font-size:11px">${esc(k.value)}</span><button class="btn" onclick="toggleBan('${k.id}')">Bỏ ban</button></div>`).join(""):`<div class="empty">Chưa có key nào bị ban.</div>`}</div>
+    <div class="card"><h3 class="title">Ban UID / thiết bị</h3><div style="display:flex;gap:8px;margin-bottom:12px"><input id="banUid" class="input" placeholder="Nhập UID thiết bị…"><button class="btn danger" onclick="banUid()">Ban</button></div>${state.bannedDevices.length?state.bannedDevices.map(d=>`<div style="display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid #fff0f7"><span class="mono" style="font-size:11px">${esc(d)}</span><button class="btn" onclick="unbanUid('${esc(d)}')">Bỏ ban</button></div>`).join(""):`<div class="muted">Chưa có thiết bị nào bị ban.</div>`}</div>
+  </div>`;
+}
+function stat(label,n,icon,tone="pink"){return `<div class="stat"><div class="si ${tone==="rose"?"rose":""}">${icon}</div><div class="n">${n}</div><div class="l">${label}</div></div>`}
+
+const emptyForm={name:"",description:"",keyName:"",version:"1.0.0",status:"active",allowFreeLogin:false,getRealUidIOS:false,contactLink:"",updateLink:"",notifyMessage:""};
+let editingPkg=null;
+function packages(){
+  return `<div class="head"><div class="toolbar"><div><h1>Quản lý Package</h1><p>Tạo và cấu hình các package dev cho ứng dụng của bạn</p></div><button class="btn primary" onclick="openPackageForm()">＋ Tạo package</button></div></div>
+  ${editingPkg?packageForm():state.packages.length?`<div class="grid2">${state.packages.map(p=>packageCard(p)).join("")}</div>`:`<div class="empty">Chưa có package nào. Tạo package đầu tiên để bắt đầu.</div>`}`;
+}
+function packageForm(){
+  const p=editingPkg?.id?editingPkg:emptyForm,f=editingPkg?.id?editingPkg:emptyForm;
+  return `<div class="card" style="margin-bottom:20px"><div class="toolbar"><h3 class="title" style="margin:0">${editingPkg?.id?"Tuỳ chỉnh thông tin package":"Tạo package mới"}</h3><button class="btn gray" onclick="closePackageForm()">Đóng</button></div>
+  <div class="form2">${field("Tên package","pf_name",f.name,"VD: App Pro Package")}${field("Tên key","pf_keyName",f.keyName,"VD: PRO-KEY")}${field("Mô tả","pf_description",f.description,"Mô tả package…")}${field("Version","pf_version",f.version,"1.0.0")}${select("Trạng thái","pf_status",f.status,[["active","Đang hoạt động"],["maintenance","Bảo trì"]])}${field("Link liên hệ","pf_contactLink",f.contactLink,"https://…")}${field("Link cập nhật app","pf_updateLink",f.updateLink,"https://…")}${field("Thông báo","pf_notifyMessage",f.notifyMessage,"Thông báo đến người dùng key")}</div>
+  ${toggle("pf_free","Cho phép đăng nhập key miễn phí",!!f.allowFreeLogin)}${toggle("pf_ios","Lấy UID thật từ iOS",!!f.getRealUidIOS)}
+  <div class="actions" style="justify-content:flex-end;margin-top:15px"><button class="btn" onclick="closePackageForm()">Huỷ</button><button class="btn primary" onclick="savePackage()">${editingPkg?.id?"Hoàn thành":"Tạo package"}</button></div></div>`;
+}
+function field(label,id,value,ph){return `<div class="field"><label>${label}</label><input id="${id}" class="input" value="${esc(value)}" placeholder="${esc(ph||"")}"></div>`}
+function select(label,id,value,opts){return `<div class="field"><label>${label}</label><select id="${id}" class="input">${opts.map(o=>`<option value="${o[0]}" ${o[0]===value?"selected":""}>${o[1]}</option>`).join("")}</select></div>`}
+function toggle(id,label,on){return `<div class="toggle"><span>${label}</span><button id="${id}" class="switch ${on?"on":""}" onclick="this.classList.toggle('on')"><i></i></button></div>`}
+function packageCard(p){
+  const ks=state.keys.filter(k=>k.packageId===p.id),uids=ks.filter(k=>k.uid);
+  return `<div class="card"><div class="toolbar"><div><h3 class="title" style="margin:0">${esc(p.name)}</h3><div class="muted">Tạo ngày ${fmt(p.createdAt)}</div></div>${p.status==="active"?badge("Đang hoạt động","green"):badge("Bảo trì","amber")}</div>
+  ${p.description?`<p style="font-size:13px;color:#6b7280">${esc(p.description)}</p>`:""}
+  <div class="actions" style="margin:12px 0">${badge("v"+p.version,"gray")}${badge(ks.length+" key","pink")}${p.allowFreeLogin?badge("Free login","gray"):""}${p.getRealUidIOS?badge("UID iOS thật","gray"):""}</div>
+  <div class="muted">API Key package</div><button class="copy" onclick="copy('${esc(p.apiKey||"")}')">${esc(p.apiKey||"—")}</button>
+  <div class="muted" style="margin-top:8px">Token package</div><button class="copy" onclick="copy('${esc(p.token||"")}')">${esc(p.token||"—")}</button>
+  <p class="muted">UID đã nhập key: <b>${uids.length}</b></p>
+  <div class="actions" style="padding-top:12px;border-top:1px solid #fff0f7"><button class="btn" onclick="editPackage('${p.id}')">⚙ Tuỳ chỉnh</button><button class="btn" onclick="resetPackage('${p.id}')">↻ Reset all key</button><button class="btn danger" onclick="deletePackage('${p.id}')">Xoá package</button></div></div>`;
+}
+function openPackageForm(){editingPkg={...emptyForm};render()}
+function editPackage(id){editingPkg={...state.packages.find(p=>p.id===id)};render()}
+function closePackageForm(){editingPkg=null;render()}
+function savePackage(){
+  const f={name:$("#pf_name").value.trim(),keyName:$("#pf_keyName").value.trim(),description:$("#pf_description").value.trim(),version:$("#pf_version").value.trim()||"1.0.0",status:$("#pf_status").value,contactLink:$("#pf_contactLink").value.trim(),updateLink:$("#pf_updateLink").value.trim(),notifyMessage:$("#pf_notifyMessage").value.trim(),allowFreeLogin:$("#pf_free").classList.contains("on"),getRealUidIOS:$("#pf_ios").classList.contains("on")};
+  if(!f.name)return toast("Vui lòng nhập tên package");
+  if(editingPkg.id){mutate(()=>{state.packages=state.packages.map(p=>p.id===editingPkg.id?{...p,...f}:p)},"Đã lưu package")}
+  else{mutate(()=>state.packages.unshift({...f,id:uid(),apiKey:genKey(),token:genToken(),createdAt:Date.now()}),"Đã tạo package")}
+  editingPkg=null;render();
+}
+function resetPackage(id){if(!confirm("Reset toàn bộ key của package này?"))return;mutate(()=>state.keys=state.keys.map(k=>k.packageId===id?{...k,usedCount:0,uid:null,banned:false}:k),"Đã reset all key")}
+function deletePackage(id){const p=state.packages.find(x=>x.id===id);if(!confirm(`Xoá package "${p?.name}" và toàn bộ key liên quan?`))return;mutate(()=>{state.packages=state.packages.filter(x=>x.id!==id);state.keys=state.keys.filter(x=>x.packageId!==id)},"Đã xoá package")}
+
+let keySearch="",keyDetail=null;
+function keys(){
+  const list=state.keys.filter(k=>[k.name,k.value,k.uid,k.note,state.packages.find(p=>p.id===k.packageId)?.name].join(" ").toLowerCase().includes(keySearch.toLowerCase()));
+  return `<div class="head"><div class="toolbar"><div><h1>Quản lý Key</h1><p>Tạo nhanh và theo dõi các key đã phát hành</p></div><button class="btn danger" onclick="clearKeys()">♻ Dọn key</button></div></div>
+  <div class="card" style="margin-bottom:20px"><h3 class="title">Tạo key nhanh</h3><div class="form2">${select("Chọn package","kf_pkg",state.packages[0]?.id||"",state.packages.map(p=>[p.id,p.name]))}${field("Lượt nhập key","kf_uses","1","1")}</div><div class="field"><label>Thời hạn</label><div class="actions">${DURATIONS.map(d=>`<button class="btn ${d[0]==="7d"?"primary":""}" onclick="createKey('${d[0]}')">${d[1]}</button>`).join("")}</div></div></div>
+  <div class="card"><div class="toolbar"><h3 class="title" style="margin:0">Danh sách key đã tạo (${list.length})</h3><input id="keySearch" class="input" style="max-width:270px" value="${esc(keySearch)}" placeholder="Tìm theo key, UID, package…" oninput="keySearch=this.value;render();setTimeout(()=>{let x=$('#keySearch');x?.focus();x?.setSelectionRange(x.value.length,x.value.length)},0)"></div>
+  ${list.length?`<div class="tablewrap"><table class="table"><tr><th>Tên</th><th>Key</th><th>Package</th><th>Lượt nhập</th><th>Tạo</th><th>Thời hạn</th><th>Trạng thái</th><th></th></tr>${list.map(k=>{const p=state.packages.find(x=>x.id===k.packageId),tl=left(k.expiresAt);return `<tr><td><b>${esc(k.name)}</b>${k.messages?.length?`<div>${badge(k.messages.length+" tin nhắn","pink")}</div>`:""}</td><td><button class="copy" onclick="copy('${esc(k.value)}')">${esc(k.value)}</button></td><td>${esc(p?.name||"—")}</td><td>${k.usedCount||0}/${k.maxUses||0}</td><td>${fmt(k.createdAt)}</td><td>${badge(tl.label,tl.expired?"rose":"gray")}</td><td>${k.banned?badge("Đã ban","rose"):badge("Hoạt động","green")}</td><td><div class="actions"><button class="btn" onclick="openKey('${k.id}')">Chi tiết</button><button class="btn" onclick="toggleBan('${k.id}')">${k.banned?"Bỏ ban":"Ban"}</button><button class="btn danger" onclick="deleteKey('${k.id}')">Xoá</button></div></td></tr>`}).join("")}</table></div>`:`<div class="empty">Không có key nào.</div>`}</div>
+  ${keyDetail?keyModal(state.keys.find(k=>k.id===keyDetail)): ""}`;
+}
+function createKey(duration){
+  const pkg=$("#kf_pkg")?.value,uses=Math.max(1,Number($("#kf_uses")?.value)||1),d=DURATIONS.find(x=>x[0]===duration),p=state.packages.find(x=>x.id===pkg);
+  if(!p)return toast("Vui lòng tạo package trước");
+  mutate(()=>state.keys.unshift({id:uid(),packageId:pkg,name:`KEY-${rand(4)}`,value:genKey(),maxUses:uses,usedCount:0,createdAt:Date.now(),expiresAt:Date.now()+d[2],uid:null,banned:false,note:"",messages:[]}),"Đã tạo key");
+}
+function clearKeys(){if(!confirm("Xoá toàn bộ key? Hành động không thể hoàn tác."))return;mutate(()=>state.keys=[],"Đã dọn toàn bộ key")}
+function toggleBan(id){mutate(()=>state.keys=state.keys.map(k=>k.id===id?{...k,banned:!k.banned}:k), "Đã cập nhật trạng thái key")}
+function deleteKey(id){if(!confirm("Xoá key này?"))return;mutate(()=>state.keys=state.keys.filter(k=>k.id!==id),"Đã xoá key")}
+function openKey(id){keyDetail=id;render()}
+function keyModal(k){
+  if(!k)return "";
+  const p=state.packages.find(x=>x.id===k.packageId),tl=left(k.expiresAt);
+  return `<div class="modal" onclick="if(event.target===this)closeKey()"><div class="modalbox"><div class="mh"><div><b>${esc(k.name)}</b> ${k.banned?badge("Đã ban","rose"):badge(tl.label,tl.expired?"rose":"green")}<div class="muted">${esc(p?.name||"—")} · ${esc(k.value)}</div></div><button class="close" onclick="closeKey()">×</button></div><div class="mb"><div class="grid3">${info("UID đã nhập",k.uid||"Chưa có")}${info("Lượt dùng",`${k.usedCount||0}/${k.maxUses||0}`)}${info("Tạo ngày",fmt(k.createdAt))}</div>
+  <div class="field" style="margin-top:20px"><label>Thông tin tuỳ chỉnh cho key</label><textarea id="kd_note" class="input" rows="3">${esc(k.note||"")}</textarea></div><div class="actions" style="justify-content:flex-end"><button class="btn primary" onclick="saveNote('${k.id}')">Lưu thông tin</button></div>
+  <div class="field" style="margin-top:18px"><label>UID thiết bị để mô phỏng nhập key</label><input id="kd_uid" class="input" value="${esc(k.uid||"")}" placeholder="UID"></div><button class="btn" onclick="setUid('${k.id}')">Lưu UID / cộng 1 lượt</button>
+  <hr style="border:0;border-top:1px solid #f7dce9;margin:20px 0"><label class="field"><span class="field"><label>Gửi tin nhắn đến người dùng key</label><div style="display:flex;gap:8px"><input id="kd_msg" class="input" placeholder="Nhập nội dung tin nhắn…"><button class="btn primary" onclick="sendMsg('${k.id}')">Gửi</button></div></label>
+  <div style="margin-top:12px">${(k.messages||[]).length?[...(k.messages||[])].reverse().map(m=>`<div style="padding:9px;background:#fdf2f8;border:1px solid #fbcfe8;border-radius:9px;margin:6px 0"><div style="font-size:13px;color:#be185d">${esc(m.text)}</div><div class="muted">${new Date(m.sentAt).toLocaleString("vi-VN")}</div></div>`).join(""):`<div class="muted">Chưa có tin nhắn nào.</div>`}</div></div></div></div>`;
+}
+function closeKey(){keyDetail=null;render()}
+function saveNote(id){mutate(()=>state.keys=state.keys.map(k=>k.id===id?{...k,note:$("#kd_note").value}:k),"Đã lưu thông tin")}
+function setUid(id){const v=$("#kd_uid").value.trim();mutate(()=>state.keys=state.keys.map(k=>k.id===id?{...k,uid:v,usedCount:v?Math.min(k.maxUses,k.usedCount+1):k.usedCount}:k),"Đã cập nhật UID");keyDetail=id;render()}
+function sendMsg(id){const v=$("#kd_msg").value.trim();if(!v)return;mutate(()=>state.keys=state.keys.map(k=>k.id===id?{...k,messages:[...(k.messages||[]),{text:v,sentAt:Date.now()}]}:k),"Đã gửi tin nhắn");keyDetail=id;render()}
+
+function usage(){
+  const p=state.packages[0];if(!p)return `<div class="head"><h1>Gói đang sử dụng</h1><p>Chi tiết package hiện đang hoạt động chính</p></div><div class="empty">Chưa có package nào được tạo.</div>`;
+  const ks=state.keys.filter(k=>k.packageId===p.id),active=ks.filter(k=>!left(k.expiresAt).expired&&!k.banned);
+  return `<div class="head"><h1>Gói đang sử dụng</h1><p>Chi tiết package hiện đang hoạt động chính</p></div><div class="card" style="max-width:760px"><div class="toolbar"><h2 style="margin:0">${esc(p.name)}</h2>${p.status==="active"?badge("Đang hoạt động","green"):badge("Bảo trì","amber")}</div><p style="color:#6b7280">${esc(p.description||"Không có mô tả.")}</p><div class="grid2" style="margin:20px 0">${info("Version","v"+p.version)}${info("Ngày tạo",fmt(p.createdAt))}${info("Tổng key",ks.length)}${info("Key còn hoạt động",active.length)}${info("Free login",p.allowFreeLogin?"Bật":"Tắt")}${info("UID thật iOS",p.getRealUidIOS?"Bật":"Tắt")}</div><div class="field"><label>API Key</label><button class="copy" onclick="copy('${esc(p.apiKey||"")}')">${esc(p.apiKey||"—")}</button></div><div class="field"><label>Token</label><button class="copy" onclick="copy('${esc(p.token||"")}')">${esc(p.token||"—")}</button></div>${p.contactLink?`<p class="muted">Liên hệ: <a href="${esc(p.contactLink)}" target="_blank">${esc(p.contactLink)}</a></p>`:""}${p.updateLink?`<p class="muted">Cập nhật: <a href="${esc(p.updateLink)}" target="_blank">${esc(p.updateLink)}</a></p>`:""}${p.notifyMessage?`<div class="notice">📢 ${esc(p.notifyMessage)}</div>`:""}</div>`;
+}
+function docs(){
+  const p=state.packages[0];
+  const snippet=`POST https://api.yourserver.dev/v1/verify
+Authorization: Bearer ${p?.apiKey||"<API_KEY>"}
+Content-Type: application/json
+
+{
+  "key": "<KEY_NGUOI_DUNG_NHAP>",
+  "uid": "<UID_THIET_BI>"
+}
+
+200 → key hợp lệ
+403 → key sai / hết hạn / bị ban
+423 → package bảo trì`;
+  return `<div class="head"><h1>Tài liệu & Tích hợp API</h1><p>Hai bước để gắn hệ thống key vào ứng dụng của bạn</p></div><div style="max-width:850px;display:grid;gap:20px"><div class="card"><h3 class="title">1. Firebase / Database Config</h3><div class="pre">${esc(JSON.stringify(FIREBASE_CONFIG,null,2))}</div><div class="okbox" style="margin-top:12px">Database giữ nguyên node <b>/app-data</b>. HTML này dùng Firebase REST + Anonymous Auth, không cần React/Vite/npm.</div></div><div class="card"><h3 class="title">2. Gắn key vào app</h3><pre class="pre">${esc(snippet)}</pre></div></div>`;
+}
+
+function banUid(){const v=$("#banUid").value.trim();if(!v)return toast("Nhập UID trước");if(state.bannedDevices.includes(v))return toast("UID này đã bị ban");mutate(()=>state.bannedDevices.push(v),"Đã ban thiết bị")}
+function unbanUid(d){mutate(()=>state.bannedDevices=state.bannedDevices.filter(x=>x!==d),"Đã bỏ ban thiết bị")}
+function go(t){currentTab=t;keyDetail=null;editingPkg=null;render()}
+window.go=go;window.copy=copy;window.openPackageForm=openPackageForm;window.closePackageForm=closePackageForm;window.editPackage=editPackage;window.savePackage=savePackage;window.resetPackage=resetPackage;window.deletePackage=deletePackage;window.createKey=createKey;window.clearKeys=clearKeys;window.toggleBan=toggleBan;window.deleteKey=deleteKey;window.openKey=openKey;window.closeKey=closeKey;window.saveNote=saveNote;window.setUid=setUid;window.sendMsg=sendMsg;window.banUid=banUid;window.unbanUid=unbanUid;
+
+window.addEventListener("error", function(e){
+  const a=document.getElementById("app");
+  if(a) a.insertAdjacentHTML("afterbegin", `<div style="position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;background:#fff1f2;color:#991b1b;border:1px solid #fecdd3;border-radius:12px;padding:12px;font:13px Arial">Lỗi JavaScript: ${esc(e.message||"Không xác định")}</div>`);
+});
+try { render(); setStatus(false,"Đang đồng bộ Firebase…"); syncFromFirebase(false); }
+catch(e){ const a=document.getElementById("app"); if(a) a.insertAdjacentHTML("afterbegin", `<div style="position:fixed;left:12px;right:12px;top:12px;z-index:9999;background:#fff1f2;color:#991b1b;border:1px solid #fecdd3;border-radius:12px;padding:12px;font:13px Arial">Không thể khởi chạy giao diện: ${esc(e.message||"Lỗi không xác định")}</div>`); }
 </script>
 </body>
 </html>
