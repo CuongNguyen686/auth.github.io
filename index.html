@@ -65,56 +65,49 @@ function copy(v){navigator.clipboard?.writeText(v).then(()=>toast("Đã sao ché
 function badge(t,c="pink"){return `<span class="badge ${c}">${esc(t)}</span>`}
 function info(label,value){return `<div><div class="muted">${esc(label)}</div><b>${esc(value)}</b></div>`}
 
-async function firebaseLoad(){
-  const r = await fetch(`${DB_URL}/app-data.json`, {
-    method:"GET",
-    headers:{"Accept":"application/json"}
+async function signIn(){
+  const r=await fetch(`https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=${encodeURIComponent(FIREBASE_CONFIG.apiKey)}`,{
+    method:"POST",headers:{"Content-Type":"application/json"},body:JSON.stringify({returnSecureToken:true})
   });
-  const text = await r.text();
-  let d = null;
-  try { d = text ? JSON.parse(text) : null; } catch(e) {}
-
-  if(!r.ok){
-    const detail = d?.error || text || `HTTP ${r.status}`;
-    throw Error(`Firebase HTTP ${r.status}: ${detail}`);
-  }
-  if(d === null || typeof d !== "object"){
-    return {};
-  }
-  return d;
+  const d=await r.json();
+  if(!r.ok || !d.idToken) throw Error(d.error?.message||"Anonymous Auth thất bại");
+  auth={idToken:d.idToken,refreshToken:d.refreshToken,expiresAt:Date.now()+Number(d.expiresIn)*1000-60000};
 }
-
+async function refreshToken(){
+  const r=await fetch(`https://securetoken.googleapis.com/v1/token?key=${encodeURIComponent(FIREBASE_CONFIG.apiKey)}`,{
+    method:"POST",headers:{"Content-Type":"application/x-www-form-urlencoded"},
+    body:`grant_type=refresh_token&refresh_token=${encodeURIComponent(auth.refreshToken)}`
+  });
+  const d=await r.json();
+  if(!r.ok||!d.id_token) throw Error(d.error?.message||"Refresh token thất bại");
+  auth={idToken:d.id_token,refreshToken:d.refresh_token,expiresAt:Date.now()+Number(d.expires_in)*1000-60000};
+}
+async function ensureAuth(){
+  if(auth.idToken && Date.now()<auth.expiresAt)return auth.idToken;
+  if(auth.refreshToken){try{await refreshToken();return auth.idToken}catch(e){}}
+  await signIn(); return auth.idToken;
+}
+async function firebaseLoad(){
+  const t=await ensureAuth();
+  const r=await fetch(`${DB_URL}/app-data.json?auth=${encodeURIComponent(t)}`);
+  const d=await r.json();
+  if(!r.ok)throw Error(d?.error||`Database HTTP ${r.status}`);
+  return d||{};
+}
 let saveTimer;
 function scheduleSave(){
   clearTimeout(saveTimer);
   saveTimer=setTimeout(async()=>{
     try{
-      const r=await fetch(`${DB_URL}/app-data.json`,{
-        method:"PUT",
-        headers:{
-          "Content-Type":"application/json",
-          "Accept":"application/json"
-        },
-        body:JSON.stringify(state)
+      const t=await ensureAuth();
+      const r=await fetch(`${DB_URL}/app-data.json?auth=${encodeURIComponent(t)}`,{
+        method:"PUT",headers:{"Content-Type":"application/json"},body:JSON.stringify(state)
       });
-      const text=await r.text();
-      let d=null;
-      try{d=text?JSON.parse(text):null}catch(e){}
-
-      if(!r.ok){
-        const detail=d?.error||text||`HTTP ${r.status}`;
-        throw Error(`Firebase HTTP ${r.status}: ${detail}`);
-      }
-
+      if(!r.ok){const d=await r.json().catch(()=>({}));throw Error(d?.error||`HTTP ${r.status}`)}
       setStatus(true,"Firebase đã lưu");
-    }catch(e){
-      setStatus(false,"Firebase lỗi");
-      toast("Lưu Firebase lỗi: "+e.message);
-      console.error("Firebase write error:",e);
-    }
+    }catch(e){setStatus(false,"Chưa đồng bộ Firebase");toast("Lưu Firebase lỗi: "+e.message)}
   },250);
 }
-
 function setStatus(ok,msg){const x=$(".status");if(x){x.className="status "+(ok?"ok":"bad");x.textContent=msg}}
 async function syncFromFirebase(show=true){
   try{
@@ -248,7 +241,7 @@ Content-Type: application/json
 200 → key hợp lệ
 403 → key sai / hết hạn / bị ban
 423 → package bảo trì`;
-  return `<div class="head"><h1>Tài liệu & Tích hợp API</h1><p>Hai bước để gắn hệ thống key vào ứng dụng của bạn</p></div><div style="max-width:850px;display:grid;gap:20px"><div class="card"><h3 class="title">1. Firebase / Database Config</h3><div class="pre">${esc(JSON.stringify(FIREBASE_CONFIG,null,2))}</div><div class="okbox" style="margin-top:12px">Database giữ nguyên node <b>/app-data</b>. HTML này dùng Firebase REST trực tiếp tại /app-data, không dùng Authentication.</div></div><div class="card"><h3 class="title">2. Gắn key vào app</h3><pre class="pre">${esc(snippet)}</pre></div></div>`;
+  return `<div class="head"><h1>Tài liệu & Tích hợp API</h1><p>Hai bước để gắn hệ thống key vào ứng dụng của bạn</p></div><div style="max-width:850px;display:grid;gap:20px"><div class="card"><h3 class="title">1. Firebase / Database Config</h3><div class="pre">${esc(JSON.stringify(FIREBASE_CONFIG,null,2))}</div><div class="okbox" style="margin-top:12px">Database giữ nguyên node <b>/app-data</b>. HTML này dùng Firebase REST + Anonymous Auth, không cần React/Vite/npm.</div></div><div class="card"><h3 class="title">2. Gắn key vào app</h3><pre class="pre">${esc(snippet)}</pre></div></div>`;
 }
 
 function banUid(){const v=$("#banUid").value.trim();if(!v)return toast("Nhập UID trước");if(state.bannedDevices.includes(v))return toast("UID này đã bị ban");mutate(()=>state.bannedDevices.push(v),"Đã ban thiết bị")}
@@ -260,7 +253,7 @@ window.addEventListener("error", function(e){
   const a=document.getElementById("app");
   if(a) a.insertAdjacentHTML("afterbegin", `<div style="position:fixed;left:12px;right:12px;bottom:12px;z-index:9999;background:#fff1f2;color:#991b1b;border:1px solid #fecdd3;border-radius:12px;padding:12px;font:13px Arial">Lỗi JavaScript: ${esc(e.message||"Không xác định")}</div>`);
 });
-try { render(); setStatus(false,"Đang đọc Firebase…"); syncFromFirebase(false); }
+try { render(); setStatus(false,"Đang đồng bộ Firebase…"); syncFromFirebase(false); }
 catch(e){ const a=document.getElementById("app"); if(a) a.insertAdjacentHTML("afterbegin", `<div style="position:fixed;left:12px;right:12px;top:12px;z-index:9999;background:#fff1f2;color:#991b1b;border:1px solid #fecdd3;border-radius:12px;padding:12px;font:13px Arial">Không thể khởi chạy giao diện: ${esc(e.message||"Lỗi không xác định")}</div>`); }
 </script>
 </body>
